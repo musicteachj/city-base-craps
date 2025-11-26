@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const DisplayContainer = styled.div`
+export const DisplayContainer = styled.section`
   background: rgba(255, 255, 255, 0.25);
   border-radius: 12px;
   padding: 1.5rem;
@@ -50,7 +50,7 @@ export const BankrollLabel = styled.span`
 `;
 
 export const BankrollValue = styled.span`
-  color: #4CAF50;
+  color: #4caf50;
   font-size: 1.5rem;
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -144,7 +144,7 @@ export const DiceDisplay = styled.div`
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   margin-bottom: 0.35rem;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
 
   @media (max-width: 768px) {
     font-size: 0.8rem;
@@ -250,4 +250,3 @@ export const EmptyState = styled.div`
     padding: 1.5rem 1rem;
   }
 `;
-

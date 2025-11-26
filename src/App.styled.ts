@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const AppContainer = styled.div`
+export const AppContainer = styled.main`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -23,4 +23,3 @@ export const AppContainer = styled.div`
     padding: 1rem 0.5rem;
   }
 `;
-
