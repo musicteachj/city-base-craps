@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import GameControls from "./GameControls";
@@ -8,6 +8,12 @@ describe("GameControls Component", () => {
 
   beforeEach(() => {
     mockOnStartGame.mockClear();
+    // Clear any persisted settings before each test
+    window.localStorage.clear();
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
   });
 
   it("should render all form inputs and labels", () => {
@@ -37,6 +43,69 @@ describe("GameControls Component", () => {
     expect(playsInput.value).toBe("10");
   });
 
+  it("should render scenario preset buttons", () => {
+    render(<GameControls onStartGame={mockOnStartGame} />);
+
+    expect(screen.getByRole("button", { name: /low risk/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /standard/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /high roller/i })
+    ).toBeInTheDocument();
+  });
+
+  it("should apply preset values when preset buttons are clicked", async () => {
+    const user = userEvent.setup();
+    render(<GameControls onStartGame={mockOnStartGame} />);
+
+    const bankrollInput = screen.getByLabelText(
+      /^bankroll/i
+    ) as HTMLInputElement;
+    const betInput = screen.getByLabelText(/bet/i) as HTMLInputElement;
+    const playsInput = screen.getByLabelText(
+      /number of plays/i
+    ) as HTMLInputElement;
+
+    await user.click(screen.getByRole("button", { name: /low risk/i }));
+    expect(bankrollInput.value).toBe("100");
+    expect(betInput.value).toBe("5");
+    expect(playsInput.value).toBe("10");
+
+    await user.click(screen.getByRole("button", { name: /standard/i }));
+    expect(bankrollInput.value).toBe("300");
+    expect(betInput.value).toBe("15");
+    expect(playsInput.value).toBe("25");
+
+    await user.click(screen.getByRole("button", { name: /high roller/i }));
+    expect(bankrollInput.value).toBe("1000");
+    expect(betInput.value).toBe("50");
+    expect(playsInput.value).toBe("50");
+  });
+
+  it("should initialize values from localStorage when available and valid", () => {
+    window.localStorage.setItem(
+      "crapsGameSettings",
+      JSON.stringify({
+        bankroll: 250,
+        bet: 25,
+        numberOfPlays: 20,
+      })
+    );
+
+    render(<GameControls onStartGame={mockOnStartGame} />);
+
+    const bankrollInput = screen.getByLabelText(
+      /^bankroll/i
+    ) as HTMLInputElement;
+    const betInput = screen.getByLabelText(/bet/i) as HTMLInputElement;
+    const playsInput = screen.getByLabelText(
+      /number of plays/i
+    ) as HTMLInputElement;
+
+    expect(bankrollInput.value).toBe("250");
+    expect(betInput.value).toBe("25");
+    expect(playsInput.value).toBe("20");
+  });
+
   it("should enable submit button with valid default inputs", () => {
     render(<GameControls onStartGame={mockOnStartGame} />);
 
@@ -52,6 +121,15 @@ describe("GameControls Component", () => {
     await user.click(submitButton);
 
     expect(mockOnStartGame).toHaveBeenCalledWith({
+      bankroll: 100,
+      bet: 5,
+      numberOfPlays: 10,
+    });
+
+    // Settings should be persisted to localStorage
+    const stored = window.localStorage.getItem("crapsGameSettings");
+    expect(stored).not.toBeNull();
+    expect(JSON.parse(stored as string)).toEqual({
       bankroll: 100,
       bet: 5,
       numberOfPlays: 10,
@@ -265,7 +343,7 @@ describe("GameControls Component", () => {
     const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
     const playsInput = screen.getByLabelText(/number of plays/i);
-    const submitButton = screen.getByRole("button");
+    const submitButton = screen.getByRole("button", { name: /start game/i });
 
     expect(bankrollInput).toBeDisabled();
     expect(betInput).toBeDisabled();
