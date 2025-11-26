@@ -68,10 +68,18 @@ export interface GameParams {
 
 /**
  * Rolls two six-sided dice and returns the result
+ * @returns DiceRoll object with die1, die2, and total values
+ * @throws Error if random number generation fails
  */
 export function rollDice(): DiceRoll {
   const die1 = Math.floor(Math.random() * 6) + 1;
   const die2 = Math.floor(Math.random() * 6) + 1;
+  
+  // Validate dice values are within expected range
+  if (die1 < 1 || die1 > 6 || die2 < 1 || die2 > 6) {
+    throw new Error("Invalid dice roll generated");
+  }
+  
   return {
     die1,
     die2,
@@ -81,10 +89,15 @@ export function rollDice(): DiceRoll {
 
 /**
  * Plays a single round of craps
- * @param bet - The amount wagered on this round
+ * @param bet - The amount wagered on this round (must be positive)
  * @returns GameRound object containing the round results
+ * @throws Error if bet is invalid
  */
 export function playRound(bet: number): GameRound {
+  // Validate bet amount
+  if (bet <= 0 || !Number.isFinite(bet)) {
+    throw new Error("Invalid bet amount: must be a positive number");
+  }
   const rolls: DiceRoll[] = [];
   let point: number | undefined;
   let won = false;
@@ -141,8 +154,16 @@ export function playRound(bet: number): GameRound {
  * Plays a complete game with bankroll management
  * @param params - Game parameters including bankroll, bet, and number of plays
  * @returns GameResult object containing complete game state and results
+ * @throws Error if parameters are invalid
  */
 export function playGame(params: GameParams): GameResult {
+  // Validate parameters before starting the game
+  const validation = validateGameParams(params);
+  if (!validation.isValid) {
+    const errorMessages = Object.values(validation.errors).join("; ");
+    throw new Error(`Invalid game parameters: ${errorMessages}`);
+  }
+  
   const { bankroll: initialBankroll, bet, numberOfPlays } = params;
 
   let currentBankroll = initialBankroll;
@@ -279,19 +300,25 @@ export function validateGameParams(params: GameParams): {
   const errors: Record<string, string> = {};
 
   // Validate bankroll (5-1000, inclusive)
-  if (params.bankroll < 5 || params.bankroll > 1000) {
+  if (!Number.isFinite(params.bankroll)) {
+    errors.bankroll = "Bankroll must be a valid number";
+  } else if (params.bankroll < 5 || params.bankroll > 1000) {
     errors.bankroll = "Bankroll must be between 5 and 1000";
   }
 
   // Validate bet (5 to current bankroll, inclusive)
-  if (params.bet < 5) {
+  if (!Number.isFinite(params.bet)) {
+    errors.bet = "Bet must be a valid number";
+  } else if (params.bet < 5) {
     errors.bet = "Bet must be at least 5";
   } else if (params.bet > params.bankroll) {
     errors.bet = "Bet cannot exceed bankroll";
   }
 
   // Validate number of plays (1-100, inclusive)
-  if (params.numberOfPlays < 1 || params.numberOfPlays > 100) {
+  if (!Number.isFinite(params.numberOfPlays) || !Number.isInteger(params.numberOfPlays)) {
+    errors.numberOfPlays = "Number of plays must be a valid integer";
+  } else if (params.numberOfPlays < 1 || params.numberOfPlays > 100) {
     errors.numberOfPlays = "Number of plays must be between 1 and 100";
   }
 
