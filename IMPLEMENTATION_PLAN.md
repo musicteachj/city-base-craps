@@ -155,3 +155,7 @@ After completing the core requirements and final polish, attempt the following b
 
 - [ ] Implement animated dice with visual rolling effects
 - [ ] Add unit tests for game logic and components
+
+## 🎲 Live Demo
+
+**[Play the Game Here](https://musicteachj.github.io/city-base-craps/)**
