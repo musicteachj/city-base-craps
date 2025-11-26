@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ControlsContainer = styled.div`
+export const ControlsContainer = styled.section`
   background: rgba(255, 255, 255, 0.25);
   border-radius: 12px;
   padding: 2rem;
@@ -60,7 +60,8 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   padding: 0.65rem 0.85rem;
   font-size: 0.95rem;
   font-weight: 500;
-  border: 2px solid ${(props) => (props.$hasError ? "#ff4444" : "rgba(255, 255, 255, 0.3)")};
+  border: 2px solid
+    ${(props) => (props.$hasError ? "#ff4444" : "rgba(255, 255, 255, 0.3)")};
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
@@ -71,8 +72,9 @@ export const Input = styled.input<{ $hasError?: boolean }>`
     outline: none;
     border-color: ${(props) => (props.$hasError ? "#ff4444" : "#4CAF50")};
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 3px ${(props) =>
-      props.$hasError ? "rgba(255, 68, 68, 0.2)" : "rgba(76, 175, 80, 0.2)"};
+    box-shadow: 0 0 0 3px
+      ${(props) =>
+        props.$hasError ? "rgba(255, 68, 68, 0.2)" : "rgba(76, 175, 80, 0.2)"};
   }
 
   &:disabled {
@@ -117,7 +119,7 @@ export const StartButton = styled.button`
   font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -147,4 +149,3 @@ export const StartButton = styled.button`
     font-size: 1rem;
   }
 `;
-

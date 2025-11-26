@@ -10,12 +10,26 @@ import {
 } from "./GameControls.styled";
 import { GameParams, validateGameParams } from "../utils/crapsGame";
 
+/**
+ * GameControls Component Props
+ */
 interface GameControlsProps {
+  /** Callback function to start the game with validated parameters */
   onStartGame: (params: GameParams) => void;
+  /** Whether the controls should be disabled (e.g., during gameplay) */
   disabled?: boolean;
+  /** Optional error message to display from parent component */
+  error?: string | null;
 }
 
-const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
+/**
+ * GameControls Component
+ * 
+ * Provides form inputs for bankroll, bet, and number of plays with validation.
+ * Ensures all inputs meet requirements before allowing game to start.
+ * Implements WCAG accessibility standards with proper labels and error handling.
+ */
+const GameControls = ({ onStartGame, disabled = false, error = null }: GameControlsProps) => {
   const [bankroll, setBankroll] = useState<string>("100");
   const [bet, setBet] = useState<string>("5");
   const [numberOfPlays, setNumberOfPlays] = useState<string>("10");
@@ -39,10 +53,20 @@ const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
     // Mark all fields as touched
     setTouched({ bankroll: true, bet: true, numberOfPlays: true });
 
+    // Parse and validate input values
+    const bankrollValue = Number(bankroll);
+    const betValue = Number(bet);
+    const numberOfPlaysValue = Number(numberOfPlays);
+
+    // Ensure all values are valid numbers
+    if (!Number.isFinite(bankrollValue) || !Number.isFinite(betValue) || !Number.isFinite(numberOfPlaysValue)) {
+      return;
+    }
+
     const params = {
-      bankroll: Number(bankroll),
-      bet: Number(bet),
-      numberOfPlays: Number(numberOfPlays),
+      bankroll: bankrollValue,
+      bet: betValue,
+      numberOfPlays: numberOfPlaysValue,
     };
 
     const validation = validateGameParams(params);
@@ -55,12 +79,35 @@ const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
+  /**
+   * Handles input changes and prevents invalid characters
+   * Only allows valid numeric input
+   */
+  const handleNumberInput = (value: string, setter: (value: string) => void) => {
+    // Allow empty string for user to clear input
+    if (value === "") {
+      setter(value);
+      return;
+    }
+    
+    // Only allow valid numbers
+    const numValue = Number(value);
+    if (!isNaN(numValue) && Number.isFinite(numValue)) {
+      setter(value);
+    }
+  };
+
   const isValid = Object.keys(errors).length === 0;
 
   return (
-    <ControlsContainer>
+    <ControlsContainer aria-label="Game controls">
       <Title>Craps Game</Title>
-      <form onSubmit={handleSubmit}>
+      {error && (
+        <ErrorMessage role="alert" aria-live="assertive">
+          {error}
+        </ErrorMessage>
+      )}
+      <form onSubmit={handleSubmit} noValidate>
         <FormGroup>
           <Label htmlFor="bankroll">
             Bankroll ($5 - $1,000)
@@ -70,10 +117,11 @@ const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
             id="bankroll"
             name="bankroll"
             value={bankroll}
-            onChange={(e) => setBankroll(e.target.value)}
+            onChange={(e) => handleNumberInput(e.target.value, setBankroll)}
             onBlur={() => handleBlur("bankroll")}
             min="5"
             max="1000"
+            step="1"
             required
             aria-required="true"
             aria-invalid={touched.bankroll && !!errors.bankroll}
@@ -101,10 +149,11 @@ const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
             id="bet"
             name="bet"
             value={bet}
-            onChange={(e) => setBet(e.target.value)}
+            onChange={(e) => handleNumberInput(e.target.value, setBet)}
             onBlur={() => handleBlur("bet")}
             min="5"
             max={bankroll}
+            step="1"
             required
             aria-required="true"
             aria-invalid={touched.bet && !!errors.bet}
@@ -128,10 +177,11 @@ const GameControls = ({ onStartGame, disabled = false }: GameControlsProps) => {
             id="numberOfPlays"
             name="numberOfPlays"
             value={numberOfPlays}
-            onChange={(e) => setNumberOfPlays(e.target.value)}
+            onChange={(e) => handleNumberInput(e.target.value, setNumberOfPlays)}
             onBlur={() => handleBlur("numberOfPlays")}
             min="1"
             max="100"
+            step="1"
             required
             aria-required="true"
             aria-invalid={touched.numberOfPlays && !!errors.numberOfPlays}

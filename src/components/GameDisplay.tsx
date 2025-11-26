@@ -15,17 +15,28 @@ import {
   EmptyState,
 } from "./GameDisplay.styled";
 
+/**
+ * GameDisplay Component Props
+ */
 interface GameDisplayProps {
+  /** The game result to display, or null if no game has been played yet */
   gameResult: GameResult | null;
 }
 
+/**
+ * GameDisplay Component
+ *
+ * Displays the current bankroll status, game log with all rolls and events,
+ * and final results summary. Shows an empty state when no game has been played.
+ * Implements WCAG accessibility with proper ARIA labels and live regions.
+ */
 const GameDisplay = ({ gameResult }: GameDisplayProps) => {
   if (!gameResult) {
     return (
-      <DisplayContainer>
+      <DisplayContainer aria-label="Game results">
         <EmptyState>
-          Set your bankroll, bet, and number of plays, then click "Start Game" to
-          begin!
+          Set your bankroll, bet, and number of plays, then click "Start Game"
+          to begin!
         </EmptyState>
       </DisplayContainer>
     );
@@ -47,7 +58,7 @@ const GameDisplay = ({ gameResult }: GameDisplayProps) => {
   };
 
   return (
-    <DisplayContainer>
+    <DisplayContainer aria-label="Game results">
       <BankrollStatus>
         <BankrollLabel>Current Bankroll:</BankrollLabel>
         <BankrollValue>${gameResult.finalBankroll}</BankrollValue>
@@ -91,4 +102,3 @@ const GameDisplay = ({ gameResult }: GameDisplayProps) => {
 };
 
 export default GameDisplay;
-
