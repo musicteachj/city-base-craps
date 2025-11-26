@@ -104,6 +104,27 @@ Set up automated deployment:
 - Clean, well-commented code
 - Verify build works (`yarn build`)
 
+## 7. Bonus Steps (Optional - After Core Implementation)
+
+After completing the core requirements and final polish, attempt the following bonus features:
+
+### Animated Dice
+
+- Implement CSS animations for the dice component
+- Animate dice to display rolled values with visual rolling effect
+- Ensure animations are smooth and enhance user experience
+
+### Unit Tests
+
+- Add testing framework (e.g., Vitest or Jest)
+- Write unit tests for game logic functions
+- Test form validation logic
+- Test edge cases and error handling
+
+### TypeScript (Already Complete)
+
+- This bonus is already satisfied through the TypeScript migration in Step 1
+
 ---
 
 ## Key Technical Decisions
@@ -118,6 +139,8 @@ Set up automated deployment:
 
 ## Implementation Checklist
 
+### Core Requirements
+
 - [ ] Set up TypeScript configuration and dependencies
 - [ ] Convert all JS/JSX files to TS/TSX with proper types
 - [ ] Implement core craps game logic with all 4 steps
@@ -127,3 +150,8 @@ Set up automated deployment:
 - [ ] Complete styling for all components with styled-components
 - [ ] Set up GitHub Actions workflow for GitHub Pages deployment
 - [ ] Test all functionality and add final polish
+
+### Bonus Features (Optional)
+
+- [ ] Implement animated dice with visual rolling effects
+- [ ] Add unit tests for game logic and components
