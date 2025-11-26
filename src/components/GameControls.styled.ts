@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 export const ControlsContainer = styled.section`
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  background: radial-gradient(circle at top, #166534 0%, #022c22 55%, #020617 100%);
+  border-radius: 18px;
+  padding: 2.25rem 2.25rem 2rem;
+  box-shadow:
+    0 22px 45px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(250, 204, 21, 0.35);
   max-width: 400px;
   width: 100%;
   margin: 0 auto;
@@ -21,12 +23,16 @@ export const ControlsContainer = styled.section`
 `;
 
 export const Title = styled.h1`
-  color: #fff;
+  color: #f9fafb;
   text-align: center;
   margin: 0 0 1.5rem 0;
-  font-size: 2rem;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(250, 204, 21, 0.35);
 
   @media (max-width: 768px) {
     font-size: 1.75rem;
@@ -44,11 +50,11 @@ export const FormGroup = styled.div`
 
 export const Label = styled.label`
   display: block;
-  color: #fff;
+  color: #e5e7eb;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 
   @media (max-width: 768px) {
     font-size: 0.85rem;
@@ -61,20 +67,28 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   font-size: 0.95rem;
   font-weight: 500;
   border: 2px solid
-    ${(props) => (props.$hasError ? "#ff4444" : "rgba(255, 255, 255, 0.3)")};
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+    ${(props) =>
+      props.$hasError ? "#f87171" : "rgba(248, 250, 252, 0.28)"};
+  border-radius: 10px;
+  background: radial-gradient(circle at top, #020617 0, #020817 55%);
+  color: #f9fafb;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  box-shadow:
+    inset 0 1px 0 rgba(248, 250, 252, 0.06),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
 
   &:focus {
     outline: none;
-    border-color: ${(props) => (props.$hasError ? "#ff4444" : "#4CAF50")};
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 3px
+    border-color: ${(props) => (props.$hasError ? "#f87171" : "#fbbf24")};
+    background: radial-gradient(circle at top, #020617 0, #020617 60%);
+    box-shadow:
+      0 0 0 3px
       ${(props) =>
-        props.$hasError ? "rgba(255, 68, 68, 0.2)" : "rgba(76, 175, 80, 0.2)"};
+        props.$hasError
+          ? "rgba(248, 113, 113, 0.3)"
+          : "rgba(250, 204, 21, 0.32)"},
+      inset 0 0 0 1px rgba(15, 23, 42, 0.9);
   }
 
   &:disabled {
@@ -83,7 +97,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(148, 163, 184, 0.85);
   }
 
   /* Remove spinner arrows for number inputs */
@@ -102,11 +116,11 @@ export const Input = styled.input<{ $hasError?: boolean }>`
 
 export const ErrorMessage = styled.span`
   display: block;
-  color: #ff6b6b;
+  color: #fca5a5;
   font-size: 0.875rem;
   margin-top: 0.5rem;
   font-weight: 500;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
 
   @media (max-width: 768px) {
     font-size: 0.8rem;
@@ -119,27 +133,33 @@ export const StartButton = styled.button`
   font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  background: radial-gradient(circle at top, #22c55e 0%, #15803d 55%, #052e16 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(22, 163, 74, 0.85);
   margin-top: 0.25rem;
 
   &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+    background: radial-gradient(circle at top, #4ade80 0%, #16a34a 55%, #052e16 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      0 16px 30px rgba(0, 0, 0, 0.8),
+      0 0 0 1px rgba(34, 197, 94, 0.9);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.8),
+      0 0 0 1px rgba(22, 163, 74, 0.9);
   }
 
   &:disabled {
-    background: linear-gradient(135deg, #888 0%, #777 100%);
+    background: radial-gradient(circle at top, #6b7280 0%, #4b5563 55%, #111827 100%);
     cursor: not-allowed;
     opacity: 0.7;
   }

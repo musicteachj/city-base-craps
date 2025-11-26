@@ -8,6 +8,9 @@ import {
   LogEntry,
   LogMessage,
   DiceDisplay,
+  DiceFace,
+  DicePip,
+  DiceTotal,
   ResultsSummary,
   ResultsTitle,
   ResultsItem,
@@ -21,7 +24,26 @@ import {
 interface GameDisplayProps {
   /** The game result to display, or null if no game has been played yet */
   gameResult: GameResult | null;
+  /** A run identifier so animations re-trigger when a new game is started */
+  runId: number;
 }
+
+const pipLayout: Record<number, number[]> = {
+  1: [5],
+  2: [1, 9],
+  3: [1, 5, 9],
+  4: [1, 3, 7, 9],
+  5: [1, 3, 5, 7, 9],
+  6: [1, 3, 4, 6, 7, 9],
+};
+
+const renderPips = (value: number) =>
+  Array.from({ length: 9 }, (_, index) => {
+    const position = index + 1;
+    const isVisible = pipLayout[value]?.includes(position) ?? false;
+
+    return <DicePip key={position} $visible={isVisible} />;
+  });
 
 /**
  * GameDisplay Component
@@ -30,7 +52,7 @@ interface GameDisplayProps {
  * and final results summary. Shows an empty state when no game has been played.
  * Implements WCAG accessibility with proper ARIA labels and live regions.
  */
-const GameDisplay = ({ gameResult }: GameDisplayProps) => {
+const GameDisplay = ({ gameResult, runId }: GameDisplayProps) => {
   if (!gameResult) {
     return (
       <DisplayContainer aria-label="Game results">
@@ -46,10 +68,18 @@ const GameDisplay = ({ gameResult }: GameDisplayProps) => {
     const isDiceRoll = entry.type === "roll" && entry.roll;
 
     return (
-      <LogEntry key={index} $type={entry.type}>
+      <LogEntry key={`${runId}-${index}`} $type={entry.type}>
         {isDiceRoll && entry.roll && (
           <DiceDisplay>
-            🎲 {entry.roll.die1} + {entry.roll.die2}
+            <DiceFace aria-hidden="true">
+              {renderPips(entry.roll.die1)}
+            </DiceFace>
+            <DiceFace aria-hidden="true">
+              {renderPips(entry.roll.die2)}
+            </DiceFace>
+            <DiceTotal>
+              🎲 {entry.roll.die1} + {entry.roll.die2}
+            </DiceTotal>
           </DiceDisplay>
         )}
         <LogMessage $type={entry.type}>{entry.message}</LogMessage>
