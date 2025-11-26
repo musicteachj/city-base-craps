@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppContainer } from "./App.styled";
+import GlobalStyles from "./GlobalStyles";
 import GameControls from "./components/GameControls";
 import GameDisplay from "./components/GameDisplay";
 import { playGame, GameParams, GameResult } from "./utils/crapsGame";
@@ -19,10 +20,13 @@ function App() {
   };
 
   return (
-    <AppContainer>
-      <GameControls onStartGame={handleStartGame} disabled={isPlaying} />
-      <GameDisplay gameResult={gameResult} />
-    </AppContainer>
+    <>
+      <GlobalStyles />
+      <AppContainer>
+        <GameControls onStartGame={handleStartGame} disabled={isPlaying} />
+        <GameDisplay gameResult={gameResult} />
+      </AppContainer>
+    </>
   );
 }
 
