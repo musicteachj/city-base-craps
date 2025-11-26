@@ -15,6 +15,7 @@ function App() {
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [runId, setRunId] = useState(0);
 
   /**
    * Handles starting a new game with the provided parameters
@@ -23,6 +24,7 @@ function App() {
   const handleStartGame = (params: GameParams) => {
     setIsPlaying(true);
     setError(null);
+    setRunId((previous) => previous + 1);
 
     try {
       // Run the game
@@ -48,7 +50,7 @@ function App() {
           disabled={isPlaying}
           error={error}
         />
-        <GameDisplay gameResult={gameResult} />
+        <GameDisplay gameResult={gameResult} runId={runId} />
       </AppContainer>
     </>
   );

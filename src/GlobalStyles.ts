@@ -13,12 +13,18 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    color: #f8fafc;
+
+    /* Deep casino night backdrop */
+    background:
+      radial-gradient(circle at top left, #14532d 0, transparent 55%),
+      radial-gradient(circle at bottom right, #0f172a 0, #020617 55%);
   }
 
   #root {
@@ -27,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
 
   /* Ensure accessibility for keyboard navigation */
   *:focus-visible {
-    outline: 2px solid #4CAF50;
+    outline: 2px solid #fbbf24; /* warm casino-gold focus ring */
     outline-offset: 2px;
   }
 
@@ -38,4 +44,3 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export default GlobalStyles;
-

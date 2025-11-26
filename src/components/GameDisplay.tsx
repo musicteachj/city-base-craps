@@ -1,4 +1,5 @@
 import { GameResult, GameLogEntry } from "../utils/crapsGame";
+import Dice from "./Dice";
 import {
   DisplayContainer,
   BankrollStatus,
@@ -8,6 +9,7 @@ import {
   LogEntry,
   LogMessage,
   DiceDisplay,
+  DiceTotal,
   ResultsSummary,
   ResultsTitle,
   ResultsItem,
@@ -21,6 +23,8 @@ import {
 interface GameDisplayProps {
   /** The game result to display, or null if no game has been played yet */
   gameResult: GameResult | null;
+  /** A run identifier so animations re-trigger when a new game is started */
+  runId: number;
 }
 
 /**
@@ -30,7 +34,7 @@ interface GameDisplayProps {
  * and final results summary. Shows an empty state when no game has been played.
  * Implements WCAG accessibility with proper ARIA labels and live regions.
  */
-const GameDisplay = ({ gameResult }: GameDisplayProps) => {
+const GameDisplay = ({ gameResult, runId }: GameDisplayProps) => {
   if (!gameResult) {
     return (
       <DisplayContainer aria-label="Game results">
@@ -46,10 +50,20 @@ const GameDisplay = ({ gameResult }: GameDisplayProps) => {
     const isDiceRoll = entry.type === "roll" && entry.roll;
 
     return (
-      <LogEntry key={index} $type={entry.type}>
+      <LogEntry key={`${runId}-${index}`} $type={entry.type}>
         {isDiceRoll && entry.roll && (
           <DiceDisplay>
-            🎲 {entry.roll.die1} + {entry.roll.die2}
+            <Dice
+              diceId={`log-${runId}-${index}-one`}
+              value={entry.roll.die1}
+            />
+            <Dice
+              diceId={`log-${runId}-${index}-two`}
+              value={entry.roll.die2}
+            />
+            <DiceTotal>
+              🎲 {entry.roll.die1} + {entry.roll.die2}
+            </DiceTotal>
           </DiceDisplay>
         )}
         <LogMessage $type={entry.type}>{entry.message}</LogMessage>
