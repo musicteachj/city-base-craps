@@ -13,7 +13,7 @@ describe("GameControls Component", () => {
   it("should render all form inputs and labels", () => {
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    expect(screen.getByLabelText(/bankroll/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^bankroll/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/bet/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/number of plays/i)).toBeInTheDocument();
     expect(
@@ -25,7 +25,7 @@ describe("GameControls Component", () => {
     render(<GameControls onStartGame={mockOnStartGame} />);
 
     const bankrollInput = screen.getByLabelText(
-      /bankroll/i
+      /^bankroll/i
     ) as HTMLInputElement;
     const betInput = screen.getByLabelText(/bet/i) as HTMLInputElement;
     const playsInput = screen.getByLabelText(
@@ -63,7 +63,7 @@ describe("GameControls Component", () => {
     render(<GameControls onStartGame={mockOnStartGame} />);
 
     const bankrollInput = screen.getByLabelText(
-      /bankroll/i
+      /^bankroll/i
     ) as HTMLInputElement;
 
     await user.clear(bankrollInput);
@@ -76,7 +76,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.type(bankrollInput, "3");
@@ -93,7 +93,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.type(bankrollInput, "1500");
@@ -125,7 +125,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
 
     await user.clear(bankrollInput);
@@ -179,7 +179,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const submitButton = screen.getByRole("button", { name: /start game/i });
 
     await user.clear(bankrollInput);
@@ -194,7 +194,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.type(bankrollInput, "2");
@@ -211,7 +211,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
     const playsInput = screen.getByLabelText(/number of plays/i);
 
@@ -237,7 +237,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
     const playsInput = screen.getByLabelText(/number of plays/i);
 
@@ -262,7 +262,7 @@ describe("GameControls Component", () => {
   it("should disable all inputs when disabled prop is true", () => {
     render(<GameControls onStartGame={mockOnStartGame} disabled={true} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
     const playsInput = screen.getByLabelText(/number of plays/i);
     const submitButton = screen.getByRole("button");
@@ -289,7 +289,7 @@ describe("GameControls Component", () => {
   it("should have proper ARIA attributes for accessibility", () => {
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     expect(bankrollInput).toHaveAttribute("aria-required", "true");
     expect(bankrollInput).toHaveAttribute("aria-invalid", "false");
@@ -299,7 +299,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.type(bankrollInput, "2");
@@ -314,7 +314,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.type(bankrollInput, "2");
@@ -338,7 +338,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
 
     // Set invalid values without blurring
@@ -380,7 +380,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
 
     await user.clear(bankrollInput);
     await user.tab();
@@ -395,7 +395,7 @@ describe("GameControls Component", () => {
     const user = userEvent.setup();
     render(<GameControls onStartGame={mockOnStartGame} />);
 
-    const bankrollInput = screen.getByLabelText(/bankroll/i);
+    const bankrollInput = screen.getByLabelText(/^bankroll/i);
     const betInput = screen.getByLabelText(/bet/i);
 
     // Set bet to 50
