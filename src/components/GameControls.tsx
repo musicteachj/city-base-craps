@@ -124,7 +124,9 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
             step="1"
             required
             aria-required="true"
-            aria-invalid={touched.bankroll && !!errors.bankroll}
+            aria-invalid={
+              touched.bankroll && !!errors.bankroll ? "true" : "false"
+            }
             aria-describedby={
               touched.bankroll && errors.bankroll
                 ? "bankroll-error"
@@ -156,7 +158,7 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
             step="1"
             required
             aria-required="true"
-            aria-invalid={touched.bet && !!errors.bet}
+            aria-invalid={touched.bet && !!errors.bet ? "true" : "false"}
             aria-describedby={touched.bet && errors.bet ? "bet-error" : undefined}
             $hasError={touched.bet && !!errors.bet}
             disabled={disabled}
@@ -184,7 +186,9 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
             step="1"
             required
             aria-required="true"
-            aria-invalid={touched.numberOfPlays && !!errors.numberOfPlays}
+            aria-invalid={
+              touched.numberOfPlays && !!errors.numberOfPlays ? "true" : "false"
+            }
             aria-describedby={
               touched.numberOfPlays && errors.numberOfPlays
                 ? "numberOfPlays-error"
