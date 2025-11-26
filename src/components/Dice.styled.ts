@@ -8,7 +8,7 @@ const show1 = keyframes`
 `;
 */
 
-export const Die = styled.div`
+export const Die = styled.div<{ $leftPos: string; $topPos: string }>`
   position: relative;
   width: 200px;
   height: 200px;
@@ -53,13 +53,15 @@ export const DieSide = styled.div`
   }
 `;
 
-const rowAndColPosValues = {
+type PositionKey = "one" | "two" | "three";
+
+const rowAndColPosValues: Record<PositionKey, string> = {
   one: "20%",
   two: "50%",
   three: "80%"
 };
 
-export const Dot = styled.div`
+export const Dot = styled.div<{ row: PositionKey; column: PositionKey }>`
   position: absolute;
   width: 40px;
   height: 40px;
@@ -70,3 +72,4 @@ export const Dot = styled.div`
   top: ${({ row }) => rowAndColPosValues[row]};
   left: ${({ column }) => rowAndColPosValues[column]};
 `;
+
