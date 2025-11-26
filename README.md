@@ -1,5 +1,11 @@
 # CityBase Senior Frontend Engineer Take Home Exercise
 
+## 🎲 Live Demo
+
+**[Play the Game Here](https://jameslittlefield.github.io/city-base-craps/)**
+
+---
+
 This is the skeleton project for the CityBase take home exercise. Please read and follow the instructions below.
 
 *Important* You do not need to complete this exercise in its entirety to be considered for the position you are interviewing for. We understand that everyone has different obligations and that some candidates may not have time to invest in completing the entire exercise. Please get as far as you are able, we will evaluate anything that you submit.
