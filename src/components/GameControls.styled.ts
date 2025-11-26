@@ -25,7 +25,7 @@ export const ControlsContainer = styled.section`
 export const Title = styled.h1`
   color: #f9fafb;
   text-align: center;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.25rem 0;
   font-size: 2.1rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -36,7 +36,52 @@ export const Title = styled.h1`
 
   @media (max-width: 768px) {
     font-size: 1.75rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const PresetRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+`;
+
+export const PresetButton = styled.button`
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 250, 250, 0.32);
+  background: radial-gradient(circle at top, #0f172a 0%, #020617 60%);
+  color: #e5e7eb;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+
+  &:hover {
+    background: radial-gradient(circle at top, #1d4ed8 0%, #020617 65%);
+    border-color: rgba(191, 219, 254, 0.9);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.65rem;
   }
 `;
 

@@ -256,6 +256,88 @@ export const ResultsItem = styled.div<{ $type?: "win" | "lose" }>`
   }
 `;
 
+export const StatsPanel = styled.section`
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(148, 163, 184, 0.6);
+
+  @media (max-width: 768px) {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+  }
+`;
+
+export const StatsTitle = styled.h3`
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.98);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`;
+
+export const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const StatCard = styled.div`
+  position: relative;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: radial-gradient(circle at top, #020617 0%, #020617 60%);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(15, 23, 42, 0.85);
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.7rem;
+  }
+`;
+
+export const StatLabel = styled.div`
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(148, 163, 184, 0.96);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+`;
+
+export const StatValue = styled.div`
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(56, 189, 248, 0.4);
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
+`;
+
+export const StatSubtext = styled.div`
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.9);
+  margin-top: 0.15rem;
+`;
+
 export const EmptyState = styled.div`
   color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;

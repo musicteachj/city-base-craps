@@ -7,8 +7,32 @@ import {
   ErrorMessage,
   StartButton,
   Title,
+  PresetRow,
+  PresetButton,
 } from "./GameControls.styled";
 import { GameParams, validateGameParams } from "../utils/crapsGame";
+
+const LOCAL_STORAGE_KEY = "crapsGameSettings";
+
+type PresetKey = "low" | "standard" | "high";
+
+const PRESET_VALUES: Record<PresetKey, GameParams> = {
+  low: {
+    bankroll: 100,
+    bet: 5,
+    numberOfPlays: 10,
+  },
+  standard: {
+    bankroll: 300,
+    bet: 15,
+    numberOfPlays: 25,
+  },
+  high: {
+    bankroll: 1000,
+    bet: 50,
+    numberOfPlays: 50,
+  },
+};
 
 /**
  * GameControls Component Props
@@ -24,17 +48,53 @@ interface GameControlsProps {
 
 /**
  * GameControls Component
- * 
+ *
  * Provides form inputs for bankroll, bet, and number of plays with validation.
  * Ensures all inputs meet requirements before allowing game to start.
  * Implements WCAG accessibility standards with proper labels and error handling.
  */
-const GameControls = ({ onStartGame, disabled = false, error = null }: GameControlsProps) => {
+const GameControls = ({
+  onStartGame,
+  disabled = false,
+  error = null,
+}: GameControlsProps) => {
   const [bankroll, setBankroll] = useState<string>("100");
   const [bet, setBet] = useState<string>("5");
   const [numberOfPlays, setNumberOfPlays] = useState<string>("10");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Initialize from localStorage when available and valid
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const stored = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!stored) return;
+
+      const parsed = JSON.parse(stored) as {
+        bankroll?: number;
+        bet?: number;
+        numberOfPlays?: number;
+      };
+
+      const params = {
+        bankroll: Number(parsed.bankroll),
+        bet: Number(parsed.bet),
+        numberOfPlays: Number(parsed.numberOfPlays),
+      };
+
+      const validation = validateGameParams(params);
+      if (!validation.isValid) return;
+
+      setBankroll(String(params.bankroll));
+      setBet(String(params.bet));
+      setNumberOfPlays(String(params.numberOfPlays));
+    } catch (storageError) {
+      // If anything goes wrong, fall back to default state
+      console.error("Failed to read saved game settings:", storageError);
+    }
+  }, []);
 
   // Validate on every change
   useEffect(() => {
@@ -59,7 +119,11 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
     const numberOfPlaysValue = Number(numberOfPlays);
 
     // Ensure all values are valid numbers
-    if (!Number.isFinite(bankrollValue) || !Number.isFinite(betValue) || !Number.isFinite(numberOfPlaysValue)) {
+    if (
+      !Number.isFinite(bankrollValue) ||
+      !Number.isFinite(betValue) ||
+      !Number.isFinite(numberOfPlaysValue)
+    ) {
       return;
     }
 
@@ -72,6 +136,19 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
     const validation = validateGameParams(params);
     if (validation.isValid) {
       onStartGame(params);
+
+      // Persist last valid settings to localStorage
+      try {
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem(
+            LOCAL_STORAGE_KEY,
+            JSON.stringify(params)
+          );
+        }
+      } catch (storageError) {
+        // Non-fatal: game can proceed even if persistence fails
+        console.error("Failed to save game settings:", storageError);
+      }
     }
   };
 
@@ -83,13 +160,16 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
    * Handles input changes and prevents invalid characters
    * Only allows valid numeric input
    */
-  const handleNumberInput = (value: string, setter: (value: string) => void) => {
+  const handleNumberInput = (
+    value: string,
+    setter: (value: string) => void
+  ) => {
     // Allow empty string for user to clear input
     if (value === "") {
       setter(value);
       return;
     }
-    
+
     // Only allow valid numbers
     const numValue = Number(value);
     if (!isNaN(numValue) && Number.isFinite(numValue)) {
@@ -99,9 +179,39 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
 
   const isValid = Object.keys(errors).length === 0;
 
+  const applyPreset = (preset: PresetKey) => {
+    const config = PRESET_VALUES[preset];
+    setBankroll(String(config.bankroll));
+    setBet(String(config.bet));
+    setNumberOfPlays(String(config.numberOfPlays));
+  };
+
   return (
     <ControlsContainer aria-label="Game controls">
       <Title>Craps Game</Title>
+      <PresetRow aria-label="Scenario presets">
+        <PresetButton
+          type="button"
+          onClick={() => applyPreset("low")}
+          aria-label="Low risk preset"
+        >
+          Low Risk
+        </PresetButton>
+        <PresetButton
+          type="button"
+          onClick={() => applyPreset("standard")}
+          aria-label="Standard preset"
+        >
+          Standard
+        </PresetButton>
+        <PresetButton
+          type="button"
+          onClick={() => applyPreset("high")}
+          aria-label="High roller preset"
+        >
+          High Roller
+        </PresetButton>
+      </PresetRow>
       {error && (
         <ErrorMessage role="alert" aria-live="assertive">
           {error}
@@ -109,9 +219,7 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
       )}
       <form onSubmit={handleSubmit} noValidate>
         <FormGroup>
-          <Label htmlFor="bankroll">
-            Bankroll ($5 - $1,000)
-          </Label>
+          <Label htmlFor="bankroll">Bankroll ($5 - $1,000)</Label>
           <Input
             type="number"
             id="bankroll"
@@ -128,9 +236,7 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
               touched.bankroll && !!errors.bankroll ? "true" : "false"
             }
             aria-describedby={
-              touched.bankroll && errors.bankroll
-                ? "bankroll-error"
-                : undefined
+              touched.bankroll && errors.bankroll ? "bankroll-error" : undefined
             }
             $hasError={touched.bankroll && !!errors.bankroll}
             disabled={disabled}
@@ -143,9 +249,7 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="bet">
-            Bet ($5 - Current Bankroll)
-          </Label>
+          <Label htmlFor="bet">Bet ($5 - Current Bankroll)</Label>
           <Input
             type="number"
             id="bet"
@@ -159,7 +263,9 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
             required
             aria-required="true"
             aria-invalid={touched.bet && !!errors.bet ? "true" : "false"}
-            aria-describedby={touched.bet && errors.bet ? "bet-error" : undefined}
+            aria-describedby={
+              touched.bet && errors.bet ? "bet-error" : undefined
+            }
             $hasError={touched.bet && !!errors.bet}
             disabled={disabled}
           />
@@ -171,15 +277,15 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="numberOfPlays">
-            Number of Plays (1 - 100)
-          </Label>
+          <Label htmlFor="numberOfPlays">Number of Plays (1 - 100)</Label>
           <Input
             type="number"
             id="numberOfPlays"
             name="numberOfPlays"
             value={numberOfPlays}
-            onChange={(e) => handleNumberInput(e.target.value, setNumberOfPlays)}
+            onChange={(e) =>
+              handleNumberInput(e.target.value, setNumberOfPlays)
+            }
             onBlur={() => handleBlur("numberOfPlays")}
             min="1"
             max="100"
@@ -217,4 +323,3 @@ const GameControls = ({ onStartGame, disabled = false, error = null }: GameContr
 };
 
 export default GameControls;
-
