@@ -1,4 +1,5 @@
 import { GameResult, GameLogEntry } from "../utils/crapsGame";
+import Dice from "./Dice";
 import {
   DisplayContainer,
   BankrollStatus,
@@ -8,8 +9,6 @@ import {
   LogEntry,
   LogMessage,
   DiceDisplay,
-  DiceFace,
-  DicePip,
   DiceTotal,
   ResultsSummary,
   ResultsTitle,
@@ -27,23 +26,6 @@ interface GameDisplayProps {
   /** A run identifier so animations re-trigger when a new game is started */
   runId: number;
 }
-
-const pipLayout: Record<number, number[]> = {
-  1: [5],
-  2: [1, 9],
-  3: [1, 5, 9],
-  4: [1, 3, 7, 9],
-  5: [1, 3, 5, 7, 9],
-  6: [1, 3, 4, 6, 7, 9],
-};
-
-const renderPips = (value: number) =>
-  Array.from({ length: 9 }, (_, index) => {
-    const position = index + 1;
-    const isVisible = pipLayout[value]?.includes(position) ?? false;
-
-    return <DicePip key={position} $visible={isVisible} />;
-  });
 
 /**
  * GameDisplay Component
@@ -71,12 +53,14 @@ const GameDisplay = ({ gameResult, runId }: GameDisplayProps) => {
       <LogEntry key={`${runId}-${index}`} $type={entry.type}>
         {isDiceRoll && entry.roll && (
           <DiceDisplay>
-            <DiceFace aria-hidden="true">
-              {renderPips(entry.roll.die1)}
-            </DiceFace>
-            <DiceFace aria-hidden="true">
-              {renderPips(entry.roll.die2)}
-            </DiceFace>
+            <Dice
+              diceId={`log-${runId}-${index}-one`}
+              value={entry.roll.die1}
+            />
+            <Dice
+              diceId={`log-${runId}-${index}-two`}
+              value={entry.roll.die2}
+            />
             <DiceTotal>
               🎲 {entry.roll.die1} + {entry.roll.die2}
             </DiceTotal>
