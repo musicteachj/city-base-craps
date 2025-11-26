@@ -1,5 +1,4 @@
 import { GameResult, GameLogEntry } from "../utils/crapsGame";
-import Dice from "./Dice";
 import {
   DisplayContainer,
   BankrollStatus,
@@ -8,7 +7,7 @@ import {
   GameLog,
   LogEntry,
   LogMessage,
-  DiceContainer,
+  DiceDisplay,
   ResultsSummary,
   ResultsTitle,
   ResultsItem,
@@ -38,20 +37,9 @@ const GameDisplay = ({ gameResult }: GameDisplayProps) => {
     return (
       <LogEntry key={index} $type={entry.type}>
         {isDiceRoll && entry.roll && (
-          <DiceContainer>
-            <Dice 
-              value={entry.roll.die1} 
-              diceID={`log-${index}-1`} 
-              left="0px" 
-              top="0px" 
-            />
-            <Dice 
-              value={entry.roll.die2} 
-              diceID={`log-${index}-2`} 
-              left="0px" 
-              top="0px" 
-            />
-          </DiceContainer>
+          <DiceDisplay>
+            🎲 {entry.roll.die1} + {entry.roll.die2}
+          </DiceDisplay>
         )}
         <LogMessage $type={entry.type}>{entry.message}</LogMessage>
       </LogEntry>

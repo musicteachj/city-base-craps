@@ -1,17 +1,24 @@
 import styled from "styled-components";
 
 export const DisplayContainer = styled.div`
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  max-width: 800px;
-  margin: 2rem auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+    margin: 1.5rem auto 0;
+  }
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
-    margin: 1rem;
+    padding: 1rem;
+    margin: 1.5rem auto 0;
   }
 `;
 
@@ -19,47 +26,47 @@ export const BankrollStatus = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.75rem;
   }
 `;
 
 export const BankrollLabel = styled.span`
   color: #fff;
-  font-size: 1.25rem;
-  font-weight: 500;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   @media (max-width: 768px) {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 `;
 
 export const BankrollValue = styled.span`
   color: #4CAF50;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
   @media (max-width: 768px) {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
   }
 `;
 
 export const GameLog = styled.div`
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 1.5rem;
-  max-height: 500px;
+  padding: 1rem;
+  max-height: 400px;
   overflow-y: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   /* Custom scrollbar */
   &::-webkit-scrollbar {
@@ -81,14 +88,14 @@ export const GameLog = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 1rem;
-    max-height: 400px;
+    padding: 0.75rem;
+    max-height: 350px;
   }
 `;
 
 export const LogEntry = styled.div<{ $type: string }>`
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 6px;
   background: ${(props) => {
     switch (props.$type) {
@@ -123,31 +130,25 @@ export const LogEntry = styled.div<{ $type: string }>`
     }};
 
   @media (max-width: 768px) {
-    padding: 0.65rem;
-    margin-bottom: 0.65rem;
+    padding: 0.4rem;
+    margin-bottom: 0.4rem;
   }
 `;
 
-export const DiceContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-
-  /* Make dice smaller in the log */
-  & > div {
-    transform: scale(0.5);
-    transform-origin: left center;
-  }
+export const DiceDisplay = styled.div`
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.35rem;
+  font-family: 'Courier New', monospace;
 
   @media (max-width: 768px) {
-    gap: 0.75rem;
-    
-    & > div {
-      transform: scale(0.4);
-    }
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
   }
 `;
 
@@ -165,12 +166,12 @@ export const LogMessage = styled.p<{ $type: string }>`
         return "#fff";
     }
   }};
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.4;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   @media (max-width: 768px) {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -183,31 +184,32 @@ export const Separator = styled.hr`
     rgba(255, 255, 255, 0.2),
     transparent
   );
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 
   @media (max-width: 768px) {
-    margin: 1.25rem 0;
+    margin: 0.85rem 0;
   }
 `;
 
 export const ResultsSummary = styled.div`
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem;
 
   @media (max-width: 768px) {
-    padding: 1.25rem;
+    padding: 0.85rem;
   }
 `;
 
 export const ResultsTitle = styled.h2`
   color: #fff;
-  font-size: 1.75rem;
-  margin: 0 0 1rem 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 `;
 
@@ -217,9 +219,9 @@ export const ResultsItem = styled.div<{ $type?: "win" | "lose" }>`
     if (props.$type === "lose") return "#E57373";
     return "#fff";
   }};
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   &:last-child {
     margin-bottom: 0;
@@ -230,21 +232,22 @@ export const ResultsItem = styled.div<{ $type?: "win" | "lose" }>`
   }
 
   @media (max-width: 768px) {
-    font-size: 1rem;
-    margin-bottom: 0.65rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
   }
 `;
 
 export const EmptyState = styled.div`
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
   text-align: center;
-  padding: 3rem 2rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   @media (max-width: 768px) {
-    font-size: 1.1rem;
-    padding: 2rem 1.5rem;
+    font-size: 0.95rem;
+    padding: 1.5rem 1rem;
   }
 `;
 
